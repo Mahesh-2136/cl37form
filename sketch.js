@@ -4,6 +4,12 @@ function setup(){
     createCanvas(500,500);
     ball = createSprite(250,250,10,10);
     ball.shapeColor = "red";
+
+    loc = firebase.database();
+
+    position = loc.ref("ball");
+
+    position.on("value",read);
 }
 
 function draw(){
@@ -24,6 +30,15 @@ function draw(){
 }
 
 function changePosition(x,y){
-    ball.x = ball.x + x;
-    ball.y = ball.y + y;
+ position.set({
+     x:pos.x + x,
+     y:pos.y + y
+ })
+}
+
+function read(data){
+pos = data.val();
+
+ball.x = pos.x
+ball.y = pos.y
 }
